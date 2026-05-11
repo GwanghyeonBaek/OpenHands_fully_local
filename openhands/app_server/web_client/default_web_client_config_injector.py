@@ -29,7 +29,10 @@ def _get_posthog_client_key() -> str:
 
     Reads POSTHOG_CLIENT_KEY from environment. If not set or empty,
     returns the OSS default key for backwards compatibility.
+    Set DISABLE_ANALYTICS=true to fully disable PostHog telemetry.
     """
+    if os.getenv('DISABLE_ANALYTICS', '').strip().lower() == 'true':
+        return ''
     key = os.getenv('POSTHOG_CLIENT_KEY', '').strip()
     return key if key else _OSS_POSTHOG_KEY
 
